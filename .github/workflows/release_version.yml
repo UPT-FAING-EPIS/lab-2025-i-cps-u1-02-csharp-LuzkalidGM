@@ -9,15 +9,41 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      
+      - name: Set release version from tag
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+      
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.x'
+      
+      - name: Setup NuGet source
+        run: |
+          dotnet nuget add source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --name github --username ${{ github.repository_owner }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text
+      
+      - name: Update package version
+        run: |
+          echo "Setting version to ${{ env.RELEASE_VERSION }}"
+          sed -i "s/<TargetFramework>net9.0<\/TargetFramework>/<TargetFramework>net9.0<\/TargetFramework>\n    <Version>${{ env.RELEASE_VERSION }}<\/Version>\n    <Authors>UPT-FAING-EPIS<\/Authors>\n    <Description>Bank Domain library<\/Description>/g" Bank/Bank.Domain/Bank.Domain.csproj
+      
       - name: Build
-        run: dotnet build --configuration Release
+        run: dotnet build Bank/Bank.sln --configuration Release
+      
       - name: Pack NuGet
         run: dotnet pack Bank/Bank.Domain/Bank.Domain.csproj -c Release -o out
+      
       - name: Create Release
+        id: create_release
         uses: softprops/action-gh-release@v2
         with:
+          name: Release ${{ env.RELEASE_VERSION }}
+          draft: false
+          prerelease: false
           files: out/*.nupkg
+          body: |
+            # Release Notes
+            Version ${{ env.RELEASE_VERSION }} of the Bank Domain library
+            
+            ## What's Changed
+            * Release version ${{ env.RELEASE_VERSION }}

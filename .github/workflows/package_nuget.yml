@@ -8,18 +8,48 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.x'
-      - name: Run tests
-        run: dotnet test --collect:"XPlat Code Coverage"
+      
+      - name: Setup NuGet source
+        run: |
+          dotnet nuget add source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --name github --username ${{ github.repository_owner }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text
+      
+      - name: Restore dependencies
+        run: dotnet restore Bank/Bank.sln
+      
+      - name: Run tests with coverage
+        run: |
+          dotnet test Bank/Bank.sln --collect:"XPlat Code Coverage"
+          dotnet tool install -g dotnet-reportgenerator-globaltool
+          reportgenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
+      
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: Cobertura/
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.projectKey=${{ github.repository_owner }}_bank-domain
+            -Dsonar.organization=${{ github.repository_owner }}
+      
+      - name: Update Bank.Domain version
+        run: |
+          VERSION="1.0.0-$(date +'%Y%m%d%H%M%S')"
+          sed -i "s/<TargetFramework>net9.0<\/TargetFramework>/<TargetFramework>net9.0<\/TargetFramework>\n    <Version>${VERSION}<\/Version>\n    <Authors>UPT-FAING-EPIS<\/Authors>\n    <Description>Bank Domain library<\/Description>/g" Bank/Bank.Domain/Bank.Domain.csproj
+      
       - name: Pack NuGet
-        run: dotnet pack Bank/Bank.Domain/Bank.Domain.csproj -o out
+        run: dotnet pack Bank/Bank.Domain/Bank.Domain.csproj -c Release -o out
+      
       - name: Publish to GitHub Packages
         run: dotnet nuget push out/*.nupkg --source "github" --api-key ${{ secrets.GITHUB_TOKEN }}

@@ -1,6 +1,6 @@
 name: Snyk Analysis
 env:
-  DOTNET_VERSION: '8.x'
+  DOTNET_VERSION: '8.x'                     # la versión de .NET
 on: push
 jobs:
   security:
@@ -13,14 +13,27 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-      - name: Instalar snyk-to-html
+      - name: Install snyk-to-html
         run: npm install -g snyk-to-html
-      - name: Snyk test (dependencias)
-        run: snyk test --json | snyk-to-html -o dependencies-test-results.html
+      - name: Snyk code test
+        run: snyk code test --json --sarif-file-output=snyk-code.sarif | snyk-to-html -o snyk-code-test-results.html
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      - name: Subir artefacto HTML
+      - name: Snyk container test
+        run: |
+          cd Bank
+          docker build -t api-banco .
+          snyk container test api-banco --json | snyk-to-html -o snyk-container-test-results.html
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Upload HTML reports
         uses: actions/upload-artifact@v4
         with:
-          name: snyk-html-report
-          path: dependencies-test-results.html
+          name: snyk-html-reports
+          path: |
+            snyk-code-test-results.html
+            snyk-container-test-results.html
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk-code.sarif
