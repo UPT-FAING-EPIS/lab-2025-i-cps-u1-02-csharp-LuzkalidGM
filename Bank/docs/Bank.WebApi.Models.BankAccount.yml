@@ -21,7 +21,7 @@ items:
     remote:
       path: Bank/Bank.WebApi/Models/BankAccount.cs
       branch: main
-      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-SebastianFuentesAvalos.git
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-LuzkalidGM.git
     id: BankAccount
     path: Bank.WebApi/Models/BankAccount.cs
     startLine: 2
@@ -56,7 +56,7 @@ items:
     remote:
       path: Bank/Bank.WebApi/Models/BankAccount.cs
       branch: main
-      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-SebastianFuentesAvalos.git
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-LuzkalidGM.git
     id: .ctor
     path: Bank.WebApi/Models/BankAccount.cs
     startLine: 7
@@ -90,7 +90,7 @@ items:
     remote:
       path: Bank/Bank.WebApi/Models/BankAccount.cs
       branch: main
-      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-SebastianFuentesAvalos.git
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-LuzkalidGM.git
     id: CustomerName
     path: Bank.WebApi/Models/BankAccount.cs
     startLine: 12
@@ -119,7 +119,7 @@ items:
     remote:
       path: Bank/Bank.WebApi/Models/BankAccount.cs
       branch: main
-      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-SebastianFuentesAvalos.git
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-LuzkalidGM.git
     id: Balance
     path: Bank.WebApi/Models/BankAccount.cs
     startLine: 13
@@ -148,7 +148,7 @@ items:
     remote:
       path: Bank/Bank.WebApi/Models/BankAccount.cs
       branch: main
-      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-SebastianFuentesAvalos.git
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-LuzkalidGM.git
     id: Debit
     path: Bank.WebApi/Models/BankAccount.cs
     startLine: 14
@@ -180,7 +180,7 @@ items:
     remote:
       path: Bank/Bank.WebApi/Models/BankAccount.cs
       branch: main
-      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-SebastianFuentesAvalos.git
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-LuzkalidGM.git
     id: Credit
     path: Bank.WebApi/Models/BankAccount.cs
     startLine: 22

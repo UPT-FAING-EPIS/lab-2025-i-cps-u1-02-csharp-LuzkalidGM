@@ -17,7 +17,7 @@ items:
     remote:
       path: Bank/Bank.WebApi.Tests/BanckAccountTests.cs
       branch: main
-      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-SebastianFuentesAvalos.git
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-LuzkalidGM.git
     id: BankAccountTests
     path: Bank.WebApi.Tests/BanckAccountTests.cs
     startLine: 5
@@ -62,7 +62,7 @@ items:
     remote:
       path: Bank/Bank.WebApi.Tests/BanckAccountTests.cs
       branch: main
-      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-SebastianFuentesAvalos.git
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-cps-u1-02-csharp-LuzkalidGM.git
     id: Debit_WithValidAmount_UpdatesBalance
     path: Bank.WebApi.Tests/BanckAccountTests.cs
     startLine: 8
